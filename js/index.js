@@ -1,5 +1,6 @@
 import { animate } from "./animator.js"
 import { mc, importImages } from "./character.js"
+import { createMobs } from "./mob.js"
 
 export var width, height, g_width, g_height, topLeft = [0, 0], block, x_tiles = 28, y_tiles = 20, canvas, ctx;
 var res = 2;
@@ -15,6 +16,7 @@ var res = 2;
 importImages();
 canvasSizing();
 mc();
+createMobs();
 addEventListners();
 animate();
 

@@ -49,8 +49,8 @@ export function importImages() {
     imgArray[7] = [gdl1, gdl2];
 }
 
-export class Individual {
-    constructor(type) {
+class MainCharacter {
+    constructor() {
         this.n = 0;
         this.dir = 0;
         this.up = 0;
@@ -59,14 +59,9 @@ export class Individual {
         this.right = 0;
         this.speed = spd;
         this.counter = 0;
-        if (type == 'mc') {
-            this.x = 13.5;
-            this.y = 10.5;
-            this.base_image = imgArray[0][0];
-        } else {
-            this.x = 0;
-            this.y = 0;
-        }
+        this.x = 13.5;
+        this.y = 10.5;
+        this.base_image = imgArray[0][0];
     }
 
 
@@ -75,6 +70,7 @@ export class Individual {
         let y = topLeft[1] + this.y * block;
 
         ctx.drawImage(this.base_image, x - 0.38 * block, y - 0.7 * block, 0.7 * block, 1.3 * block);
+        // ctx.drawImage(this.base_image, x - 0.1 * block, y - 0.1 * block, 0.2 * block, 0.2 * block);
 
         // ctx.beginPath();
         // ctx.moveTo(x - 0.4 * block, y + 0.5 * block);
@@ -83,6 +79,11 @@ export class Individual {
         // ctx.closePath();
         // ctx.strokeStyle = 'red';
         // ctx.stroke();
+    }
+
+    pushback(px, py) {
+        this.x += px;
+        this.y += py;
     }
 
     updatePosition() {
@@ -112,6 +113,8 @@ export class Individual {
 
         if ((this.down + this.up + this.left + this.right) > 0) {
             this.counter++;
+        } if (this.counter > 50000) {
+            this.counter = 0;
         }
 
         let picCounter = (Math.floor(this.counter / 7) % 2);
@@ -168,22 +171,22 @@ export class Individual {
 }
 
 export function mc() {
-    mainPlayer = new Individual('mc');
+    mainPlayer = new MainCharacter();
     window.addEventListener('keydown', detectDirction);
     window.addEventListener('keyup', stopMovement);
 }
 
 function detectDirction(e) {
-    if (e.key == 'w') {
+    if (e.key == 'w' || e.key == 'W') {
         mainPlayer.up = 1;
     }
-    if (e.key == 'a') {
+    if (e.key == 'a' || e.key == 'A') {
         mainPlayer.left = 1;
     }
-    if (e.key == 'd') {
+    if (e.key == 'd' || e.key == 'D') {
         mainPlayer.right = 1;
     }
-    if (e.key == 's') {
+    if (e.key == 's' || e.key == 'S') {
         mainPlayer.down = 1;
     }
     if ((mainPlayer.up + mainPlayer.down + mainPlayer.left + mainPlayer.right) > 1) {
@@ -192,16 +195,16 @@ function detectDirction(e) {
 }
 
 function stopMovement(e) {
-    if (e.key == 'w') {
+    if (e.key == 'w' || e.key == 'W') {
         mainPlayer.up = 0;
     }
-    if (e.key == 'a') {
+    if (e.key == 'a' || e.key == 'A') {
         mainPlayer.left = 0;
     }
-    if (e.key == 'd') {
+    if (e.key == 'd' || e.key == 'D') {
         mainPlayer.right = 0;
     }
-    if (e.key == 's') {
+    if (e.key == 's' || e.key == 'S') {
         mainPlayer.down = 0;
     }
     if ((mainPlayer.up + mainPlayer.down + mainPlayer.left + mainPlayer.right) <= 1) {

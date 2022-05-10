@@ -31,7 +31,7 @@ export function addLights() {
 
 
     var grd = ctx.createRadialGradient(width / 2, height / 2, 5 * block, width / 2, height / 2, 15 * block);
-    grd.addColorStop(1, 'rgba(255, 0, 0, 0.2)');
+    grd.addColorStop(1, 'rgba(255, 0, 0, 0.15)');
     grd.addColorStop(0, "rgba(0, 0, 255, 0");
 
     ctx.fillStyle = grd;
