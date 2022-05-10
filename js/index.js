@@ -1,6 +1,6 @@
 import { animate } from "./animator.js"
-import { mc, importImages } from "./character.js"
-import { createMobs } from "./mob.js"
+import { mc, importCharacterImages } from "./character.js"
+import { createMobs, importMobImages } from "./mob.js"
 
 export var width, height, g_width, g_height, topLeft = [0, 0], block, x_tiles = 28, y_tiles = 20, canvas, ctx;
 var res = 2;
@@ -59,4 +59,9 @@ function canvasSizing() {
 
 function addEventListners() {
     window.addEventListener('resize', canvasSizing);
+}
+
+function importImages() {
+    importCharacterImages();
+    importMobImages();
 }

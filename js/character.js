@@ -5,7 +5,7 @@ export var mainPlayer;
 var gd1, gd2, gu1, gu2, gl1, gl2, gr1, gr2, gul1, gul2, gdl1, gdl2, gdr1, gdr2, gur1, gur2, imgArray = [];
 
 
-export function importImages() {
+export function importCharacterImages() {
     gd1 = new Image();
     gd1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-down-1.png?raw=true';
     gd2 = new Image();

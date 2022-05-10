@@ -1,14 +1,21 @@
 import { width, height, g_width, g_height, topLeft, block, x_tiles, y_tiles, ctx } from "./index.js"
 import { mainPlayer } from "./character.js"
-export var mob = [];
+export var mob = [], md1;
+var mobImages = [];
 
+
+export function importMobImages() {
+    md1 = new Image();
+    md1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob.png?raw=true';
+
+    mobImages[0] = [md1];
+}
 
 class Mob {
     constructor() {
         this.x = 7.5;
         this.y = 6.5;
-        this.img = new Image();
-        this.img.src = '../img/mob.png';
+        this.img = mobImages[0][0];
     }
 
     characterDistance() {
