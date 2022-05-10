@@ -1,5 +1,5 @@
 import { animate } from "./animator.js"
-import { mc } from "./character.js"
+import { mc, importImages } from "./character.js"
 
 export var width, height, g_width, g_height, topLeft = [0, 0], block, x_tiles = 28, y_tiles = 20, canvas, ctx;
 var res = 2;
@@ -12,6 +12,7 @@ var res = 2;
 // canvas & ctx: the canvas used to show each frame of the game and its 2d contents
 // res: The resolution of the canvas. the standard resolution is res = 1. for example res of 2 is twice as detailed.
 
+importImages();
 canvasSizing();
 mc();
 addEventListners();

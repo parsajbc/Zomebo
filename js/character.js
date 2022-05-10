@@ -1,13 +1,58 @@
 import { width, height, g_width, g_height, topLeft, block, x_tiles, y_tiles, ctx } from "./index.js"
 
 var spd = 0.07;
-export var mainPlayer, imgSrc = '../img/guy-';
+export var mainPlayer;
+var gd1, gd2, gu1, gu2, gl1, gl2, gr1, gr2, gul1, gul2, gdl1, gdl2, gdr1, gdr2, gur1, gur2, imgArray = [];
 
+
+export function importImages() {
+    gd1 = new Image();
+    gd1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-down-1.png?raw=true';
+    gd2 = new Image();
+    gd2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-down-2.png?raw=true';
+    gu1 = new Image();
+    gu1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-up-1.png?raw=true';
+    gu2 = new Image();
+    gu2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-up-2.png?raw=true';
+    gl1 = new Image();
+    gl1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-left-1.png?raw=true';
+    gl2 = new Image();
+    gl2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-left-2.png?raw=true';
+    gr1 = new Image();
+    gr1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-right-1.png?raw=true';
+    gr2 = new Image();
+    gr2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-right-2.png?raw=true';
+    gur1 = new Image();
+    gur1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-upright-1.png?raw=true';
+    gur2 = new Image();
+    gur2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-upright-2.png?raw=true';
+    gdr1 = new Image();
+    gdr1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-downright-1.png?raw=true';
+    gdr2 = new Image();
+    gdr2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-downright-2.png?raw=true';
+    gul1 = new Image();
+    gul1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-upleft-1.png?raw=true';
+    gul2 = new Image();
+    gul2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-upleft-2.png?raw=true';
+    gdl1 = new Image();
+    gdl1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-downleft-1.png?raw=true';
+    gdl2 = new Image();
+    gdl2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guy-downleft-2.png?raw=true';
+
+    imgArray[0] = [gu1, gu2];
+    imgArray[1] = [gd1, gd2];
+    imgArray[2] = [gl1, gl2];
+    imgArray[3] = [gr1, gr2];
+    imgArray[4] = [gur1, gur2];
+    imgArray[5] = [gul1, gul2];
+    imgArray[6] = [gdr1, gdr2];
+    imgArray[7] = [gdl1, gdl2];
+}
 
 export class Individual {
     constructor(type) {
         this.n = 0;
-        this.dir = 'up';
+        this.dir = 0;
         this.up = 0;
         this.down = 0;
         this.left = 0;
@@ -17,8 +62,7 @@ export class Individual {
         if (type == 'mc') {
             this.x = 13.5;
             this.y = 10.5;
-            this.base_image = new Image();
-            this.base_image.src = '../img/guy-down-1.png';
+            this.base_image = imgArray[0][0];
         } else {
             this.x = 0;
             this.y = 0;
@@ -43,26 +87,26 @@ export class Individual {
 
     updatePosition() {
         if (this.up) {
-            this.dir = 'up';
+            this.dir = 0;
             this.moveup();
         } if (this.down) {
             if (!(this.up)) {
-                this.dir = 'down';
+                this.dir = 1;
             }
             this.movedown();
         } if (this.right) {
             if (this.up) {
-                this.dir = 'upright'
+                this.dir = 4;
             } else if (this.down) {
-                this.dir = 'downright';
-            } else { this.dir = 'right' }
+                this.dir = 6;
+            } else { this.dir = 3 }
             this.moveright();
         } if (this.left) {
             if (this.right) { } else if (this.up) {
-                this.dir = 'upleft';
+                this.dir = 5;
             } else if (this.down) {
-                this.dir = 'downleft';
-            } else { this.dir = 'left'; }
+                this.dir = 7;
+            } else { this.dir = 2; }
             this.moveleft();
         }
 
@@ -70,8 +114,8 @@ export class Individual {
             this.counter++;
         }
 
-        let picCounter = (Math.floor(this.counter / 7) % 2) + 1;
-        this.base_image.src = imgSrc + this.dir + '-' + picCounter + '.png';
+        let picCounter = (Math.floor(this.counter / 7) % 2);
+        this.base_image = imgArray[this.dir][picCounter];
     }
 
     moveup() {
