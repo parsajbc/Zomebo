@@ -1,6 +1,8 @@
-import { drawFrame } from "./animator.js"
+import { animate } from "./animator.js"
+import { mc } from "./character.js"
 
 export var width, height, g_width, g_height, topLeft = [0, 0], block, x_tiles = 28, y_tiles = 20, canvas, ctx;
+var res = 2;
 
 // width & height: these variables hold the inner lengths of the window used to create a canvas covering the page
 // g_width & g_height: these variables hold the lengths of the playable region (the walls + the area player could move)
@@ -8,16 +10,19 @@ export var width, height, g_width, g_height, topLeft = [0, 0], block, x_tiles = 
 // block: the length of one side of a tile (or a cell)
 // x_tiles & y_tiles: the number of tiles on each axis that make up the playable region
 // canvas & ctx: the canvas used to show each frame of the game and its 2d contents
+// res: The resolution of the canvas. the standard resolution is res = 1. for example res of 2 is twice as detailed.
 
 canvasSizing();
-addEventListners()
+mc();
+addEventListners();
+animate();
 
 // function responsible for sizing the canvas and the game perameter within it depending on the window size
 function canvasSizing() {
-    width = window.innerWidth;
-    height = window.innerHeight;
+    width = window.innerWidth * res;
+    height = window.innerHeight * res;
 
-    block = 30
+    block = 30 * res;
 
     g_width = x_tiles * block;
     g_height = y_tiles * block;
@@ -43,8 +48,10 @@ function canvasSizing() {
     canvas = document.getElementById('gameCanvas');
     canvas.width = width;
     canvas.height = height;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
     ctx = canvas.getContext('2d');
-    drawFrame();
+    ctx.lineWidth = 2.5;
 }
 
 function addEventListners() {

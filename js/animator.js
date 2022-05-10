@@ -1,9 +1,21 @@
-import { drawGameBoundry, drawSideWalls, drawLowerWalls, drawUpperWalls, drawTiles } from "./map.js"
+import { drawGameBoundry, drawSideWalls, drawLowerWalls, drawUpperWalls, drawTiles, addLights } from "./map.js"
+import { ctx, width, height } from "./index.js"
+import { mainPlayer } from "./character.js"
+
 
 export function drawFrame() {
-    drawSideWalls();
+    addLights();
     drawUpperWalls();
     drawLowerWalls();
     drawTiles();
+    mainPlayer.updatePosition();
+    mainPlayer.draw();
+    drawSideWalls();
     drawGameBoundry();
+}
+
+export function animate() {
+    ctx.clearRect(0, 0, width, height);
+    drawFrame();
+    requestAnimationFrame(animate);
 }
