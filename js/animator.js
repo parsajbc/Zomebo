@@ -5,10 +5,10 @@ import { drawMobs } from "./mob.js"
 
 
 export function drawFrame() {
-    addLights();
     drawUpperWalls();
     drawLowerWalls();
     drawTiles();
+    addLights();
     drawMobs();
     mainPlayer.updatePosition();
     mainPlayer.draw();
