@@ -1,24 +1,63 @@
 import { width, height, g_width, g_height, topLeft, block, x_tiles, y_tiles, ctx } from "./index.js"
 import { mainPlayer } from "./character.js"
 export var mob = [], md1;
-var mobImages = [];
+var md1, md2, mu1, mu2, ml1, ml2, mr1, mr2, mul1, mul2, mdl1, mdl2, mdr1, mdr2, mur1, mur2, mobImages = [];
 
 
 export function importMobImages() {
     md1 = new Image();
-    md1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob.png?raw=true';
+    md1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-down-1.png?raw=true';
+    md2 = new Image();
+    md2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-down-2.png?raw=true';
+    mu1 = new Image();
+    mu1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-up-1.PNG?raw=true';
+    mu2 = new Image();
+    mu2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-up-2.PNG?raw=true';
+    ml1 = new Image();
+    ml1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-left-1.png?raw=true';
+    ml2 = new Image();
+    ml2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-left-2.png?raw=true';
+    mr1 = new Image();
+    mr1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-right-1.PNG?raw=true';
+    mr2 = new Image();
+    mr2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-right-2.PNG?raw=true';
+    mur1 = new Image();
+    mur1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-upright-1.png?raw=true';
+    mur2 = new Image();
+    mur2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-upright-2.png?raw=true';
+    mdr1 = new Image();
+    mdr1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-downright-1.PNG?raw=true';
+    mdr2 = new Image();
+    mdr2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-downright-2.PNG?raw=true';
+    mul1 = new Image();
+    mul1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-upleft-1.PNG?raw=true';
+    mul2 = new Image();
+    mul2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-upleft-2.PNG?raw=true';
+    mdl1 = new Image();
+    mdl1.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-downleft-1.png?raw=true';
+    mdl2 = new Image();
+    mdl2.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/mob-downleft-2.png?raw=true';
 
-    mobImages[0] = [md1];
+    mobImages[0] = [mu1, mu2];
+    mobImages[1] = [md1, md2];
+    mobImages[2] = [ml1, ml2];
+    mobImages[3] = [mr1, mr2];
+    mobImages[4] = [mur1, mur2];
+    mobImages[5] = [mul1, mul2];
+    mobImages[6] = [mdr1, mdr2];
+    mobImages[7] = [mdl1, mdl2];
 }
 
 class Mob {
     constructor() {
+        this.counter = 0;
         this.x = 13.5;
         this.y = 6.5;
         this.spd = 0.03;
         this.img = mobImages[0][0];
         this.pathX = [];
         this.pathY = [];
+        this.dir = 0;
     }
 
     processpath() {
@@ -35,6 +74,8 @@ class Mob {
                     let favX = Math.sqrt(1 - y ** 2);
                     let steps = (Math.floor(Math.abs(favX - x) / this.spd)) + 1;
                     let rand = this.spd * xdir;
+                    if (xdir < 0) this.dir = 2;
+                    else this.dir = 3;
                     while (steps != 0) {
                         this.pathX.push(rand);
                         this.pathY.push(0);
@@ -45,6 +86,8 @@ class Mob {
                     let favY = Math.sqrt(1 - x ** 2);
                     let steps = (Math.floor(Math.abs(favY - y) / this.spd)) + 1;
                     let rand = this.spd * ydir;
+                    if (ydir < 0) this.dir = 0;
+                    else this.dir = 1;
                     while (steps != 0) {
                         this.pathY.push(rand);
                         this.pathX.push(0);
@@ -60,6 +103,8 @@ class Mob {
                 let rand = this.spd * xdir;
                 this.pathX = [];
                 this.pathY = [];
+                if (xdir < 0) this.dir = 2;
+                else this.dir = 3;
                 while (x > 0 && counter < 33) {
                     this.pathX.push(rand);
                     this.pathY.push(0);
@@ -73,6 +118,8 @@ class Mob {
                 let rand = this.spd * ydir;
                 this.pathX = [];
                 this.pathY = [];
+                if (ydir < 0) this.dir = 0;
+                else this.dir = 1;
                 while (y > 0 && counter < 33) {
                     this.pathY.push(rand);
                     this.pathX.push(0);
@@ -88,6 +135,8 @@ class Mob {
                 let rand = this.spd * ydir;
                 this.pathX = [];
                 this.pathY = [];
+                if (ydir < 0) this.dir = 0;
+                else this.dir = 1;
                 while (y > 0 && counter < 33) {
                     this.pathY.push(rand);
                     this.pathX.push(0);
@@ -100,6 +149,8 @@ class Mob {
                 let rand = this.spd * xdir;
                 this.pathX = [];
                 this.pathY = [];
+                if (xdir < 0) this.dir = 2;
+                else this.dir = 3;
                 while (x > 0 && counter < 33) {
                     this.pathX.push(rand);
                     this.pathY.push(0);
@@ -114,6 +165,10 @@ class Mob {
                 let randY = rand * ydir;
                 this.pathX = [];
                 this.pathY = [];
+                if (xdir < 0 && ydir < 0) this.dir = 5;
+                else if (xdir < 0 && ydir > 0) this.dir = 7;
+                else if (xdir > 0 && ydir > 0) this.dir = 6;
+                else this.dir = 4;
                 while (x > 0 && counter < 33) {
                     this.pathX.push(randX);
                     this.pathY.push(randY);
@@ -124,42 +179,6 @@ class Mob {
             }
         }
     }
-
-    // processPath() {
-    //     let xdir = 1;
-    //     if (this.x - mainPlayer.x > 1) xdir = -1;
-    //     let x = Math.abs(this.x - mainPlayer.x);
-    //     let ydir = 1;
-    //     if (this.y - mainPlayer.y > 1) ydir = -1;
-    //     let y = Math.abs(this.y - mainPlayer.y);
-    //     if (x <= 1 && y <= 1) {
-    //         return;
-    //     }
-    //     if (x <= 1 || y <= 1) {
-    //         if (x > 1) {
-    //             let dir;
-    //             if (xdir == 1) { dir = 'r'; } else { dir = 'l'; }
-    //             while (x > 1) {
-    //                 this.path.push(dir);
-    //                 x -= this.spd;
-    //             }
-    //             return;
-    //         }
-    //         if (y > 1) {
-    //             let dir;
-    //             if (ydir == 1) { dir = 'd'; } else { dir = 'u'; }
-    //             while (y > 1) {
-    //                 this.path.push(dir);
-    //                 y -= this.spd;
-    //             }
-    //             return;
-    //         }
-    //     }
-    //     while (x > 2 && y > 2) { 
-    //         let rand = Math.random();
-    //     }
-    //     let xy = x - y;
-    // }
 
     characterDistance() {
         return Math.sqrt((this.x - mainPlayer.x) ** 2 + (this.y - mainPlayer.y) ** 2);
@@ -177,22 +196,10 @@ class Mob {
             this.x += xMovement;
             this.y += yMovement;
 
-            // let a = Math.abs(this.x - mainPlayer.x);
-            // let b = Math.abs(this.y - mainPlayer.y);
-            // console.log(a, b);
-
-            // if (a > 1 && b <= 1) {
-            //     this.x -= this.spd * (this.x - mainPlayer.x) / a;
-            // } else if (a <= 1 && b > 1) {
-            //     this.y -= this.spd * (this.y - mainPlayer.y) / b;
-            // } else {
-            //     let c = Math.random();
-            //     if (c > 0.5) {
-            //         this.x -= this.spd * (this.x - mainPlayer.x) / a;
-            //     } else {
-            //         this.y -= this.spd * (this.y - mainPlayer.y) / b;
-            //     }
-            // }
+            let picCounter = (Math.floor(this.counter / 7)) % 2;
+            this.img = mobImages[this.dir][picCounter];
+            this.counter++;
+            if (this.counter > 70000) this.counter = 0;
         } else {
             let pushDistance = (1 - this.characterDistance()) * 0.2;
             let angle = Math.atan((this.y - mainPlayer.y) / (this.x - mainPlayer.x));
@@ -214,7 +221,7 @@ class Mob {
         let x = topLeft[0] + this.x * block;
         let y = topLeft[1] + this.y * block;
 
-        ctx.drawImage(this.img, x - 0.5 * block, y - 0.65 * block, block, 1.15 * block);
+        ctx.drawImage(this.img, x - 0.5 * block, y - 0.65 * block, 0.7 * block, 1.3 * block);
     }
 }
 
