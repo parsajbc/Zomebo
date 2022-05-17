@@ -49,10 +49,10 @@ export function importMobImages() {
 }
 
 class Mob {
-    constructor() {
+    constructor(x, y) {
         this.counter = 0;
-        this.x = 13.5;
-        this.y = 6.5;
+        this.x = x;
+        this.y = y;
         this.spd = 0.03;
         this.img = mobImages[0][0];
         this.pathX = [];
@@ -130,7 +130,7 @@ class Mob {
             }
         } else {
             let rand = Math.random();
-            if (rand <= (1 / 3)) {
+            if (rand <= (1 / 6)) {
                 let counter = 0;
                 let rand = this.spd * ydir;
                 this.pathX = [];
@@ -144,7 +144,7 @@ class Mob {
                     counter++;
                 }
                 return;
-            } if (rand <= (2 / 3)) {
+            } if (rand <= (2 / 6)) {
                 let counter = 0;
                 let rand = this.spd * xdir;
                 this.pathX = [];
@@ -184,8 +184,43 @@ class Mob {
         return Math.sqrt((this.x - mainPlayer.x) ** 2 + (this.y - mainPlayer.y) ** 2);
     }
 
+    mobDistance(mob) {
+        return Math.sqrt((this.x - mob.x) ** 2 + (this.y - mob.y) ** 2);
+    }
+
+    pushback(px, py) {
+        this.x += px;
+        this.y += py;
+    }
+
+    pushbackMobs() {
+        for (let i = 0; i < mob.length; i++) {
+            let m = mob[i];
+            let mobdist = this.mobDistance(m);
+            if (mobdist < 1 && m != this) {
+                let pushDistance = (1 - mobdist) * 0.3;
+                let angle = Math.atan((this.y - m.y) / (this.x - m.x));
+                let y_move = Math.sin(angle) * pushDistance;
+                let x_move = Math.cos(angle) * pushDistance;
+                if (this.x < m.x) {
+                    m.pushback(x_move, y_move);
+                    this.x -= x_move;
+                    this.adjustX();
+                    this.y -= y_move;
+                    this.adjustY();
+                } else {
+                    m.pushback(-x_move, -y_move);
+                    this.x += x_move;
+                    this.adjustX();
+                    this.y += y_move;
+                    this.adjustY();
+                }
+            }
+        }
+    }
+
     updatePosition() {
-        if (this.characterDistance() >= 1) {
+        if (this.characterDistance() >= 1.03) {
             if (this.pathX.length == 0) {
                 this.processpath();
             }
@@ -194,7 +229,10 @@ class Mob {
             let yMovement = this.pathY.pop();
 
             this.x += xMovement;
+            this.adjustX();
+
             this.y += yMovement;
+            this.adjustY();
 
             let picCounter = (Math.floor(this.counter / 7)) % 2;
             this.img = mobImages[this.dir][picCounter];
@@ -208,11 +246,49 @@ class Mob {
             if (this.x < mainPlayer.x) {
                 mainPlayer.pushback(x_move, y_move);
                 this.x -= x_move;
+                this.adjustX();
                 this.y -= y_move;
+                this.adjustY();
             } else {
                 mainPlayer.pushback(-x_move, -y_move);
                 this.x += x_move;
+                this.adjustX();
                 this.y += y_move;
+                this.adjustY();
+            }
+        }
+
+        this.pushbackMobs();
+    }
+
+    adjustX() {
+        if ((this.y < 2.25 && this.y >= 0.25) || (this.y > 17.4 && this.y <= 19.4)) {
+            if (this.x > 14.65) {
+                this.x = 14.65;
+            } if (this.x < 13.35) {
+                this.x = 13.35;
+            }
+        } if (this.y >= 2.25 && this.y <= 17.4) {
+            if (this.x > 24.65) {
+                this.x = 24.65;
+            } if (this.x < 3.35) {
+                this.x = 3.35;
+            }
+        }
+    }
+
+    adjustY() {
+        if ((this.x > 3.35 && this.x < 13.35) || (this.x > 14.65 && this.x <= 24.65)) {
+            if (this.y < 2.25) {
+                this.y = 2.25;
+            } if (this.y > 17.4) {
+                this.y = 17.4;
+            }
+        } if (this.x >= 13.35 && this.x <= 14.65) {
+            if (this.y < 0.25) {
+                this.y = 0.25;
+            } if (this.y > 19.4) {
+                this.y = 19.4;
             }
         }
     }
@@ -226,7 +302,8 @@ class Mob {
 }
 
 export function createMobs() {
-    mob.push(new Mob());
+    mob.push(new Mob(13.5, 6.5));
+    mob.push(new Mob(14.5, 6.5));
 }
 
 export function drawMobs() {
