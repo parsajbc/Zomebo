@@ -32,14 +32,24 @@ class Mob {
             if (this.characterDistance() <= 1) return;
             else {
                 if (x >= y) {
+                    let favX = Math.sqrt(1 - y ** 2);
+                    let steps = (Math.floor(Math.abs(favX - x) / this.spd)) + 1;
                     let rand = this.spd * xdir;
-                    this.pathX = [rand, rand, rand];
-                    this.pathY = [0, 0, 0];
+                    while (steps != 0) {
+                        this.pathX.push(rand);
+                        this.pathY.push(0);
+                        steps--;
+                    }
                     return;
                 } else {
+                    let favY = Math.sqrt(1 - x ** 2);
+                    let steps = (Math.floor(Math.abs(favY - y) / this.spd)) + 1;
                     let rand = this.spd * ydir;
-                    this.pathY = [rand, rand, rand];
-                    this.pathX = [0, 0, 0];
+                    while (steps != 0) {
+                        this.pathY.push(rand);
+                        this.pathX.push(0);
+                        steps--;
+                    }
                     return;
                 }
             }
