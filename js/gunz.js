@@ -1,6 +1,8 @@
 import { topLeft, block, ctx } from "./index.js"
 import { mainPlayer } from "./character.js"
 var pd, pu, pr, pl, pur, pul, pdr, pdl, ru, rd, rl, rr, rul, rur, rdl, rdr, gunz = [];
+var before = [0, 4, 3, 5];
+var after = [1, 2, 6, 7];
 
 
 
@@ -40,10 +42,41 @@ export function importGun() {
     rdl.src = 'https://github.com/parsajbc/Zomebo/blob/main/img/guns/ray-downleft.png?raw=true';
 
 
-    gunz.push([pd, pu, pr, pl, pur, pul, pdr, pdl]);
-    gunz.push([rd, ru, rr, rl, rur, rul, rdr, rdl]);
+    gunz.push([pu, pd, pl, pr, pur, pul, pdr, pdl]);
+    gunz.push([ru, rd, rl, rr, rur, rul, rdr, rdl]);
 }
 
 export function drawGun(t) {
-    // if (mainPlayer.dir == )
+    let dir = mainPlayer.dir;
+    if (t == 0 && before.includes(dir)) {
+
+        let x = topLeft[0] + mainPlayer.x * block;
+        let y = topLeft[1] + mainPlayer.y * block;
+
+        if (dir == 0) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.24 * block, y - 2.5 * block, 1.9 * block, 2.4 * block);
+        } else if (dir == 4) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0.2 * block, y - 2.1 * block, 1.7 * block, 2.1 * block);
+        } else if (dir == 3) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0 * block, y - 0.9 * block, 1.5 * block, 2 * block);
+        } else if (dir == 5) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.7 * block, y - 2.1 * block, 1.5 * block, 2 * block);
+        }
+    }
+
+    if (t == 1 && after.includes(dir)) {
+
+        let x = topLeft[0] + mainPlayer.x * block;
+        let y = topLeft[1] + mainPlayer.y * block;
+
+        if (dir == 1) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.24 * block, y - 0.1 * block, 1.9 * block, 2.4 * block);
+        } else if (dir == 2) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.8 * block, y - 0.95 * block, 1.7 * block, 2.1 * block);
+        } else if (dir == 6) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0 * block, y - 0.9 * block, 1.5 * block, 2 * block);
+        } else if (dir == 7) {
+            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.6 * block, y - 0.9 * block, 1.5 * block, 2 * block);
+        }
+    }
 }

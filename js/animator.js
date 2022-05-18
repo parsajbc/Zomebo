@@ -2,6 +2,7 @@ import { drawGameBoundry, drawSideWalls, drawLowerWalls, drawUpperWalls, drawTil
 import { ctx, width, height } from "./index.js"
 import { mainPlayer } from "./character.js"
 import { drawMobs } from "./mob.js"
+import { drawGun } from "./gunz.js"
 
 
 export function drawFrame() {
@@ -11,7 +12,9 @@ export function drawFrame() {
     addLights();
     drawMobs();
     mainPlayer.updatePosition();
+    drawGun(0);
     mainPlayer.draw();
+    drawGun(1);
     drawSideWalls();
     drawGameBoundry();
 }
