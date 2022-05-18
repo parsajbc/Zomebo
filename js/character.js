@@ -1,8 +1,9 @@
-import { width, height, g_width, g_height, topLeft, block, x_tiles, y_tiles, ctx } from "./index.js"
+import { topLeft, block, ctx } from "./index.js"
 
 var spd = 0.07;
 export var mainPlayer;
 var gd1, gd2, gu1, gu2, gl1, gl2, gr1, gr2, gul1, gul2, gdl1, gdl2, gdr1, gdr2, gur1, gur2, imgArray = [];
+var nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 
 export function importCharacterImages() {
@@ -51,6 +52,8 @@ export function importCharacterImages() {
 
 class MainCharacter {
     constructor() {
+        this.gun = 0;
+        this.level = 2;
         this.n = 0;
         this.dir = 0;
         this.up = 0;
@@ -172,11 +175,11 @@ class MainCharacter {
 
 export function mc() {
     mainPlayer = new MainCharacter();
-    window.addEventListener('keydown', detectDirction);
-    window.addEventListener('keyup', stopMovement);
+    window.addEventListener('keydown', detectKeyDown);
+    window.addEventListener('keyup', detectKeyUp);
 }
 
-function detectDirction(e) {
+function detectKeyDown(e) {
     if (e.key == 'w' || e.key == 'W') {
         mainPlayer.up = 1;
     }
@@ -192,9 +195,14 @@ function detectDirction(e) {
     if ((mainPlayer.up + mainPlayer.down + mainPlayer.left + mainPlayer.right) > 1) {
         mainPlayer.speed = Math.sqrt((spd ** 2) / 2);
     }
+    if (nums.includes(e.key)) {
+        let num = parseInt(e.key);
+        if (num == 0) num = 10;
+        if (num <= mainPlayer.level) { mainPlayer.gun = num - 1 }
+    }
 }
 
-function stopMovement(e) {
+function detectKeyUp(e) {
     if (e.key == 'w' || e.key == 'W') {
         mainPlayer.up = 0;
     }

@@ -1,6 +1,7 @@
 import { animate } from "./animator.js"
 import { mc, importCharacterImages } from "./character.js"
 import { createMobs, importMobImages } from "./mob.js"
+import { importGun } from "./gunz.js"
 
 export var width, height, g_width, g_height, topLeft = [0, 0], block, x_tiles = 28, y_tiles = 20, canvas, ctx;
 var res = 2;
@@ -64,4 +65,5 @@ function addEventListners() {
 function importImages() {
     importCharacterImages();
     importMobImages();
+    importGun();
 }
