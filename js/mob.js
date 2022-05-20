@@ -53,7 +53,7 @@ class Mob {
         this.counter = 0;
         this.x = x;
         this.y = y;
-        this.spd = 0.03;
+        this.spd = 0.02;
         this.img = mobImages[0][0];
         this.pathX = [];
         this.pathY = [];

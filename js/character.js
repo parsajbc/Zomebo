@@ -1,4 +1,5 @@
 import { topLeft, block, ctx } from "./index.js"
+import { pistolBulet, rayGunBulet } from "./ammo.js"
 
 var spd = 0.07;
 export var mainPlayer;
@@ -52,7 +53,9 @@ export function importCharacterImages() {
 
 class MainCharacter {
     constructor() {
+        this.shooting = 0;
         this.gun = 0;
+        this.guncounter = 10;
         this.level = 2;
         this.n = 0;
         this.dir = 0;
@@ -171,51 +174,67 @@ class MainCharacter {
             }
         }
     }
+
+    shoot() {
+        if (this.shooting == 0) return;
+
+
+
+        if (this.gun == 0) pistolBulet(this);
+        if (this.gun == 1) rayGunBulet(this);
+    }
 }
 
 export function mc() {
     mainPlayer = new MainCharacter();
     window.addEventListener('keydown', detectKeyDown);
     window.addEventListener('keyup', detectKeyUp);
+    window.addEventListener('keypress', detectKeyPress);
 }
 
 function detectKeyDown(e) {
     if (e.key == 'w' || e.key == 'W') {
         mainPlayer.up = 1;
-    }
-    if (e.key == 'a' || e.key == 'A') {
+    } if (e.key == 'a' || e.key == 'A') {
         mainPlayer.left = 1;
-    }
-    if (e.key == 'd' || e.key == 'D') {
+    } if (e.key == 'd' || e.key == 'D') {
         mainPlayer.right = 1;
-    }
-    if (e.key == 's' || e.key == 'S') {
+    } if (e.key == 's' || e.key == 'S') {
         mainPlayer.down = 1;
-    }
-    if ((mainPlayer.up + mainPlayer.down + mainPlayer.left + mainPlayer.right) > 1) {
+    } if ((mainPlayer.up + mainPlayer.down + mainPlayer.left + mainPlayer.right) > 1) {
         mainPlayer.speed = Math.sqrt((spd ** 2) / 2);
-    }
-    if (nums.includes(e.key)) {
+    } if (nums.includes(e.key)) {
         let num = parseInt(e.key);
         if (num == 0) num = 10;
         if (num <= mainPlayer.level) { mainPlayer.gun = num - 1 }
     }
 }
 
+function detectKeyPress(e) {
+    if (e.key == ' ') {
+        mainPlayer.shooting = 1;
+    }
+}
+
 function detectKeyUp(e) {
     if (e.key == 'w' || e.key == 'W') {
         mainPlayer.up = 0;
-    }
-    if (e.key == 'a' || e.key == 'A') {
+    } if (e.key == 'a' || e.key == 'A') {
         mainPlayer.left = 0;
-    }
-    if (e.key == 'd' || e.key == 'D') {
+    } if (e.key == 'd' || e.key == 'D') {
         mainPlayer.right = 0;
-    }
-    if (e.key == 's' || e.key == 'S') {
+    } if (e.key == 's' || e.key == 'S') {
         mainPlayer.down = 0;
-    }
-    if ((mainPlayer.up + mainPlayer.down + mainPlayer.left + mainPlayer.right) <= 1) {
+    } if ((mainPlayer.up + mainPlayer.down + mainPlayer.left + mainPlayer.right) <= 1) {
         mainPlayer.speed = spd;
+    } if (e.key == ' ') {
+        mainPlayer.shooting = 0;
     }
+}
+
+export function characterInstant() {
+    mainPlayer.shoot();
+    mainPlayer.updatePosition();
+    mainPlayer.draw();
+    mainPlayer.guncounter++;
 }

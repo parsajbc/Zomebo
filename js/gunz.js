@@ -53,14 +53,19 @@ export function drawGun(t) {
         let x = topLeft[0] + mainPlayer.x * block;
         let y = topLeft[1] + mainPlayer.y * block;
 
-        if (dir == 0) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.24 * block, y - 2.5 * block, 1.9 * block, 2.4 * block);
-        } else if (dir == 4) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0.2 * block, y - 2.1 * block, 1.7 * block, 2.1 * block);
-        } else if (dir == 3) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0 * block, y - 0.9 * block, 1.5 * block, 2 * block);
-        } else if (dir == 5) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.7 * block, y - 2.1 * block, 1.5 * block, 2 * block);
+        switch (dir) {
+            case 0:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.24 * block, y - 2.5 * block, 1.9 * block, 2.4 * block);
+                break;
+            case 4:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0.2 * block, y - 2.1 * block, 1.7 * block, 2.1 * block);
+                break;
+            case 3:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0 * block, y - 0.9 * block, 1.5 * block, 2 * block);
+                break;
+            case 5:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.7 * block, y - 2.1 * block, 1.5 * block, 2 * block);
+                break;
         }
     }
 
@@ -69,14 +74,20 @@ export function drawGun(t) {
         let x = topLeft[0] + mainPlayer.x * block;
         let y = topLeft[1] + mainPlayer.y * block;
 
-        if (dir == 1) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.24 * block, y - 0.1 * block, 1.9 * block, 2.4 * block);
-        } else if (dir == 2) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.8 * block, y - 0.95 * block, 1.7 * block, 2.1 * block);
-        } else if (dir == 6) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0 * block, y - 0.9 * block, 1.5 * block, 2 * block);
-        } else if (dir == 7) {
-            ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.6 * block, y - 0.9 * block, 1.5 * block, 2 * block);
+
+        switch (dir) {
+            case 1:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0.8 * block, y - 0.1 * block, 1.9 * block, 2.4 * block);
+                break;
+            case 2:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.8 * block, y - 0.95 * block, 1.5 * block, 2 * block);
+                break;
+            case 6:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 0 * block, y - 0.9 * block, 1.5 * block, 2 * block);
+                break;
+            case 7:
+                ctx.drawImage(gunz[mainPlayer.gun][dir], x - 1.25 * block, y - 0.85 * block, 1.5 * block, 2 * block);
+                break;
         }
     }
 }
